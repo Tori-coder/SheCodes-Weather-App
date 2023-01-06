@@ -73,7 +73,7 @@ function changeTemp(response) {
     document.querySelector("#wind-speed").innerHTML = `Wind Speed: ${Math.round(
       response.data.wind.speed
     )}mph`;
-  //changes humidity - still to do
+  //changes humidity
   document.querySelector(
     "#humidity"
   ).innerHTML = `Humidity: ${response.data.main.humidity}%`;
@@ -103,6 +103,15 @@ function changeAirQual(response) {
   let airQualityIndex2 = airQual(airQualityIndex);
   newAirQuality.innerHTML = `Air Quality: ${airQualityIndex2}`;
 }
+function getLatLon(response) {
+  let lat = response.data.lat;
+  let lon = response.data.lon;
+
+  //runs fn changeAirQual
+  axios
+    .get(`${apiAirQualUrl}?lat=${lat}lon=${lon}&appid=${apiKey}`)
+    .then(changeAirQual);
+}
 
 function changeCityAndTemp(event) {
   //and air quality
@@ -115,13 +124,11 @@ function changeCityAndTemp(event) {
   axios
     .get(`${apiUrl}?q=${chosenCity}&appid=${apiKey}&units=${units}`)
     .then(changeTemp);
-  //gets lat and long
-  //HOW?
 
-  //runs fn changeAirQual
+  //gets lat and long
   axios
-    .get(`${apiAirQualUrl}?lat=${lat}lon=${lon}&appid=${apiKey}`)
-    .then(changeAirQual);
+    .get(`${findLatLongUrl}?q=${chosenCity}&limit=1&appid=${apiKey}`)
+    .then(getLatLon);
 }
 //getting weather data from API
 let apiUrl = "https://api.openweathermap.org/data/2.5/weather";
