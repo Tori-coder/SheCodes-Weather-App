@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Project</title>
+    <link rel="stylesheet" href="src/style.css" />
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+</head>
+  <!-- modelled on this
+  https://www.accuweather=.com/en/pe/lima/264120/weather-forecast/264120 -->
+  <body onload ="displayTimeAndDate()">
+    <h1>
+      <span class="tori"> 🌤 ToriWeather   
+        <span id="current-city">Miraflores </span><!--
+        --><span id="current-temp-header"> 15</span><!--
+        --><span id="current-units">ºC</span>
+      </span>
+          <form id="change-city" class="city-form">
+            <input type="search" id="city-input" placeholder="Enter the city" autofocus="off" autocomplete="off" />
+            <input type="submit" id="change-city" value="Change City" />
+          </form>
+    </h1>
+    <div class="main-forecast-grid">
+      <p>CURRENT WEATHER</br><small id="small-time">Time and Date</small></p>
+       <img class="partcloudyicon"
+              src="src\CompressJpeg.Online_Cropped-SVG_14.png"
+              alt="sun clouds icon"/
+              >
+              <div class="current-temp-main">
+                <span id="current-temp-main">15</span>
+              <span id="units">
+                <a href="#" id="celsius-link">°C</a> |
+                <a href="#" id="fahrenheit-link">°F</a>
+                </span>
+              </div>
+              <div class="realfeel">
+              <span>RealFeel®</span>
+              <span id="rFtemperature">21</span>
+              <span id="rFunits">
+                  <a href="#" id="celsius-link">°C</a> |
+                  <a href="#" id="fahrenheit-link">°F</a>
+                </span></div>
+              <span class="list-of-features">
+          <ul>
+            <li id="air-quality">
+              Air Quality: Fair
+            </li>
+            <hr/>
+            <li id="wind-speed">
+              Wind Speed: SSW 9Km/hr
+            </li>
+            <hr/>
+            <li id="humidity">  
+              Humidity: 80%
+            </li>
+            <hr/>
+            </ul>
+          </span> 
+          <span class="desc-of-weather">Cloudy with sunshine</span>
+          <span class="more-details">MORE DETAILS →</span>
+        </div>
+    </div>
+    <div class="weekly-forecast-grid">
+    </div>
+    <script src="src\index.js"></script>
+  </body>
+</html>
+
+

@@ -1,0 +1,156 @@
+body {
+  background-image: url("https://images.unsplash.com/photo-1647262859088-74acf50d422c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+h1 {
+  display: grid;
+  background-color: black;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px;
+  padding-left: 100px;
+  padding-right: 20px;
+  grid-template-columns: 1fr 1fr;
+}
+
+p {
+  grid-column: 1/6;
+  font-size: 14px;
+  color: black;
+  font-weight: normal;
+  margin-left: 20px;
+}
+
+.tori {
+  grid-column: 1;
+  font-size: 24px;
+  padding: 0;
+}
+#current-city {
+  font-size: 75%;
+  font-weight: 550;
+  text-transform: capitalize;
+}
+#current-temp-header {
+  font-size: 75%;
+  font-weight: 550;
+}
+#current-units {
+  font-size: 75%;
+  font-weight: 550;
+}
+.city-form {
+  grid-column: 2;
+}
+.city-input {
+  padding: 5px;
+  margin: 0px;
+  border: 2px;
+  border-color: aliceblue;
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+.change-city {
+  padding: 5px;
+  border-radius: 5px;
+  background-color: aliceblue;
+}
+
+.main-forecast-grid {
+  display: grid;
+  background-color: aliceblue;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 20px 15% 20px 100px;
+  font-family: Arial, Helvetica, sans-serif;
+  grid-template-columns: 70px 145px 1.5fr 250px 1.25fr 0.25fr;
+}
+.weekly-forecast-grid {
+  display: grid;
+  background-color: aliceblue;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 20px 15% 20px 100px;
+  font-family: Arial, Helvetica, sans-serif;
+  grid-template-columns: 6;
+}
+
+.partcloudyicon {
+  grid-column: 1;
+  grid-row: 2;
+  width: 60px;
+}
+.current-temp-main {
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 38px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+#units {
+  color: black;
+  position: relative;
+  left: -10px;
+  top: -18px;
+  font-weight: 500;
+  font-size: 0.35em;
+  text-decoration: none;
+}
+#rFunits {
+  font-size: 0.55em;
+  color: black;
+  position: relative;
+  top: -4px;
+  left: -3px;
+  font-weight: 500;
+  text-decoration: none;
+}
+#celsius-link:link {
+  color: black;
+  text-decoration: none;
+}
+#fahrenheit-link:link {
+  color: black;
+  text-decoration: none;
+}
+#celsius-link:hover {
+  color: black;
+  text-decoration: underline;
+}
+#fahrenheit-link:hover {
+  color: black;
+  text-decoration: underline;
+}
+
+.realfeel {
+  grid-column: 2;
+  grid-row: 3;
+  font-size: 15px;
+  margin-bottom: 0;
+  padding: 0;
+}
+.list-of-features {
+  grid-column: 4/5;
+  grid-row: 2/5;
+  font-size: 16px;
+  padding: 0;
+}
+.more-details {
+  grid-column: 4/6;
+  grid-row: 7;
+  text-align: right;
+  padding: 0;
+}
+.desc-of-weather {
+  grid-column: 1/3;
+  grid-row: 7;
+  padding: 0;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
