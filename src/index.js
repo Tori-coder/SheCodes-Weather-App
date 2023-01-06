@@ -77,6 +77,10 @@ function changeTemp(response) {
   document.querySelector(
     "#humidity"
   ).innerHTML = `Humidity: ${response.data.main.humidity}%`;
+  //changes description
+  document.querySelector(".desc-of-weather").innerHTML =
+    response.data.weather.description[2];
+  console.log(response.data.weather);
 }
 
 function airQual(val) {
@@ -120,15 +124,15 @@ function changeCityAndTemp(event) {
   changeCity();
   let chosenCity = changeCity();
 
-  //runs fn changeTemp (changes temp, wind speed, humidity)
+  //runs fn changeTemp (changes temp, wind speed, humidity, description)
   axios
     .get(`${apiUrl}?q=${chosenCity}&appid=${apiKey}&units=${units}`)
     .then(changeTemp);
 
-  //gets lat and long
+  /*//gets lat and long
   axios
     .get(`${findLatLongUrl}?q=${chosenCity}&limit=1&appid=${apiKey}`)
-    .then(getLatLon);
+    .then(getLatLon);*/
 }
 //getting weather data from API
 let apiUrl = "https://api.openweathermap.org/data/2.5/weather";
