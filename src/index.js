@@ -39,13 +39,35 @@ function displayTimeAndDate() {
   displayCurrentTime();
 }
 
+function airQual(val) {
+  if (val === 1) {
+    return "Good";
+  }
+  if (val === 2) {
+    return "Fair";
+  }
+  if (val === 3) {
+    return "Moderate";
+  }
+  if (val === 4) {
+    return "Poor";
+  }
+  if (val === 5) {
+    return "Very Poor";
+  }
+}
+
+function changeAirQual(response) {
+  let newAirQuality = document.querySelector("#air-quality");
+  let airQualityIndex = response.data.list[0].main.aqi;
+  let airQualityIndex2 = airQual(airQualityIndex);
+  newAirQuality.innerHTML = `Air Quality: ${airQualityIndex2}`;
+}
+
 function changeCity() {
   currentCity = document.querySelector("#current-city");
   let cityInput = document.querySelector("#city-input");
-  currentCity.innerHTML = `${cityInput.value.replace(
-    /(^\w{1})|(\s+\w{1})/g,
-    (letter) => letter.toUpperCase()
-  )} `;
+  currentCity.innerHTML = `${cityInput.value} `;
   return cityInput.value;
 }
 
@@ -73,66 +95,45 @@ function changeTemp(response) {
     document.querySelector("#wind-speed").innerHTML = `Wind Speed: ${Math.round(
       response.data.wind.speed
     )}mph`;
+
   //changes humidity
   document.querySelector(
     "#humidity"
   ).innerHTML = `Humidity: ${response.data.main.humidity}%`;
+
   //changes description
   document.querySelector(".desc-of-weather").innerHTML =
-    response.data.weather.description[2];
-  console.log(response.data.weather);
-}
+    response.data.weather[0].description;
 
-function airQual(val) {
-  if (val === 1) {
-    return "Good";
-  }
-  if (val === 2) {
-    return "Fair";
-  }
-  if (val === 3) {
-    return "Moderate";
-  }
-  if (val === 4) {
-    return "Poor";
-  }
-  if (val === 5) {
-    return "Very Poor";
-  }
-}
+  //changes icon and alt
+  document
+    .querySelector("#icon")
+    .setAttribute(
+      "src",
+      `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+    );
+  document
+    .querySelector("#icon")
+    .setAttribute("alt", `${response.data.weather[0].description}`);
 
-function changeAirQual(response) {
-  let newAirQuality = document.querySelector("#air-quality");
-  let airQualityIndex = response.data.list[0].main.aqi;
-  let airQualityIndex2 = airQual(airQualityIndex);
-  newAirQuality.innerHTML = `Air Quality: ${airQualityIndex2}`;
-}
-function getLatLon(response) {
-  let lat = response.data.lat;
-  let lon = response.data.lon;
-
-  //runs fn changeAirQual
+  //finds lat and lon and runs changeAirQual
+  let lat = response.data.coord.lat;
+  let lon = response.data.coord.lon;
   axios
     .get(`${apiAirQualUrl}?lat=${lat}lon=${lon}&appid=${apiKey}`)
     .then(changeAirQual);
 }
 
 function changeCityAndTemp(event) {
-  //and air quality
   event.preventDefault();
   // runs fn changeCity
   changeCity();
   let chosenCity = changeCity();
 
-  //runs fn changeTemp (changes temp, wind speed, humidity, description)
+  //runs fn changeTemp (changes temp, wind speed, humidity, description, icon)
   axios
     .get(`${apiUrl}?q=${chosenCity}&appid=${apiKey}&units=${units}`)
     .then(changeTemp);
-
-  /*//gets lat and long
-  axios
-    .get(`${findLatLongUrl}?q=${chosenCity}&limit=1&appid=${apiKey}`)
-    .then(getLatLon);*/
 }
 //getting weather data from API
 let apiUrl = "https://api.openweathermap.org/data/2.5/weather";
@@ -143,26 +144,3 @@ let units = "metric";
 
 let chosenCity = document.querySelector("#change-city");
 chosenCity.addEventListener("submit", changeCityAndTemp);
-
-function convertToFahrenheit(event) {
-  event.preventDefault();
-  let temperatureElement = document.querySelector("#current-temp");
-  temperatureElement.innerHTML = 72;
-}
-
-function convertToCelsius(event) {
-  event.preventDefault();
-  let temperatureElement = document.querySelector("#current-temp");
-  temperatureElement.innerHTML = 22;
-}
-
-let fahrenheitLink = document.querySelector("#fahrenheit-link");
-fahrenheitLink.addEventListener("click", convertToFahrenheit);
-
-let celsiusLink = document.querySelector("#celsius-link");
-celsiusLink.addEventListener("click", convertToCelsius);
-
-//convert C to F
-
-//degF = ((degC + 40) * 9) / 5 - 40;
-//degC = ((degF + 40) * 5) / 9 - 40;

@@ -146,9 +146,13 @@ p {
   padding: 0;
 }
 .desc-of-weather {
+  text-transform: capitalize;
   grid-column: 1/3;
   grid-row: 7;
   padding: 0;
+  position: relative;
+  top: -32px;
+  left: 12px;
 }
 ul {
   list-style: none;
