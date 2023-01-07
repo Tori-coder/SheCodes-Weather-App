@@ -37,7 +37,6 @@ function displayTimeAndDate() {
     smallTime.innerHTML = formattedDate;
   }
   displayCurrentTime();
-  F;
 }
 
 function convToF(event) {
