@@ -37,12 +37,28 @@ function displayTimeAndDate() {
     smallTime.innerHTML = formattedDate;
   }
   displayCurrentTime();
+  F;
 }
 
 function convToF(event) {
   event.preventDefault;
-  responseTemp = Math.round((responseTemp + 40) * 9) / 5 - 40;
-  currentTempMain.innerHTML = responseTemp;
+  if (responseTemp !== null) {
+    responseTempF = Math.round(((responseTemp + 40) * 9) / 5 - 40);
+    currentTempMain.innerHTML = responseTempF;
+  } else {
+    currentTempMain.innerHTML = Math.round(
+      ((currentTempMain + 40) * 9) / 5 - 40
+    );
+  }
+}
+
+function convToC(event) {
+  event.preventDefault;
+  if (responseTemp !== null) {
+    currentTempMain.innerHTML = Math.round(responseTemp);
+  } else {
+    currentTempMain.innerHTML = currentTempMain;
+  }
 }
 
 function airQual(val) {
@@ -63,10 +79,15 @@ function airQual(val) {
   }
 }
 
-function changeAirQual(response) {
+function changeAirQualDesc(response) {
   let airQualityIndex = response.data.list[0].main.aqi;
   let airQualityIndex2 = airQual(airQualityIndex);
   newAirQuality.innerHTML = `Air Quality: ${airQualityIndex2}`;
+}
+function changeAirQual() {
+  axios
+    .get(`${apiAirQualUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`)
+    .then(changeAirQualDesc);
 }
 
 function changeCity() {
@@ -80,7 +101,7 @@ function changeTemp(response) {
   //changes temp fig
   responseTemp = response.data.main.temp;
   currentTempMain.innerHTML = Math.round(responseTemp);
-  currentTempHeader.innerHTML = Math.round(responseTemp);
+  currentTempHeader.innerHTML = ` ${Math.round(responseTemp)}`;
   realFeelHeader.innerHTML = Math.round(response.data.main.feels_like);
 
   //changes temp units
@@ -112,11 +133,9 @@ function changeTemp(response) {
   currentIcon.setAttribute("alt", `${response.data.weather[0].description}`);
 
   //finds lat and lon and runs changeAirQual
-  let lat = response.data.coord.lat;
-  let lon = response.data.coord.lon;
-  axios
-    .get(`${apiAirQualUrl}?lat=${lat}lon=${lon}&appid=${apiKey}`)
-    .then(changeAirQual);
+  lat = response.data.coord.lat;
+  lon = response.data.coord.lon;
+  changeAirQual();
 }
 
 function changeCityAndTemp(event) {
@@ -151,3 +170,6 @@ chosenCity.addEventListener("submit", changeCityAndTemp);
 
 let fahrenheitTemp = document.querySelector("#fahrenheit-link");
 fahrenheitTemp.addEventListener("click", convToF);
+
+let celsiusTemp = document.querySelector("#celsius-link");
+celsiusTemp.addEventListener("click", convToC);
