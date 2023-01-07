@@ -41,8 +41,8 @@ function displayTimeAndDate() {
 
 function convToF(event) {
   event.preventDefault;
-  //currentTempMain = ((currentTempMain + 40) * 9) / 5 - 40;
-  currentTempMain.innerHTML = currentTempMain;
+  responseTemp = Math.round((responseTemp + 40) * 9) / 5 - 40;
+  currentTempMain.innerHTML = responseTemp;
 }
 
 function airQual(val) {
@@ -78,7 +78,7 @@ function changeCity() {
 
 function changeTemp(response) {
   //changes temp fig
-  let responseTemp = response.data.main.temp;
+  responseTemp = response.data.main.temp;
   currentTempMain.innerHTML = Math.round(responseTemp);
   currentTempHeader.innerHTML = Math.round(responseTemp);
   realFeelHeader.innerHTML = Math.round(response.data.main.feels_like);
