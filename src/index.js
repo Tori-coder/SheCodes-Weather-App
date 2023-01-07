@@ -150,7 +150,7 @@ function changeCityAndTemp(event) {
 }
 //getting weather data from API
 let apiUrl = "https://api.openweathermap.org/data/2.5/weather";
-let apiAirQualUrl = "http://api.openweathermap.org/data/2.5/air_pollution";
+let apiAirQualUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
 let apiKey = "8f909eb8beff1d1a0ae8b2df17dab17d";
 let units = "metric";
 
