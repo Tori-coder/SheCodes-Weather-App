@@ -39,6 +39,12 @@ function displayTimeAndDate() {
   displayCurrentTime();
 }
 
+function convToF(event) {
+  event.preventDefault;
+  //currentTempMain = ((currentTempMain + 40) * 9) / 5 - 40;
+  currentTempMain.innerHTML = currentTempMain;
+}
+
 function airQual(val) {
   if (val === 1) {
     return "Good";
@@ -58,7 +64,6 @@ function airQual(val) {
 }
 
 function changeAirQual(response) {
-  let newAirQuality = document.querySelector("#air-quality");
   let airQualityIndex = response.data.list[0].main.aqi;
   let airQualityIndex2 = airQual(airQualityIndex);
   newAirQuality.innerHTML = `Air Quality: ${airQualityIndex2}`;
@@ -73,21 +78,18 @@ function changeCity() {
 
 function changeTemp(response) {
   //changes temp fig
-  let currentTempMain = document.querySelector("#current-temp-main");
-  currentTempMain.innerHTML = Math.round(response.data.main.temp);
-  let currentTempHeader = document.querySelector("#current-temp-header");
-  currentTempHeader.innerHTML = Math.round(response.data.main.temp);
-  let realFeelHeader = document.querySelector("#rFtemperature");
+  let responseTemp = response.data.main.temp;
+  currentTempMain.innerHTML = Math.round(responseTemp);
+  currentTempHeader.innerHTML = Math.round(responseTemp);
   realFeelHeader.innerHTML = Math.round(response.data.main.feels_like);
 
   //changes temp units
-  let currentUnits = document.querySelector("#current-units");
+
   if (units === "metric") {
     currentUnits.innerHTML = "ºC";
   } else currentUnits.innerHTML = "ºF";
 
   //changes wind speed
-  let windSpeed = document.querySelector("#wind-speed");
   if (units === "metric") {
     windSpeed.innerHTML = `Wind Speed: ${Math.round(
       response.data.wind.speed
@@ -98,15 +100,11 @@ function changeTemp(response) {
     )}mph`;
 
   //changes humidity
-  let humidity = document.querySelector("#humidity");
   humidity.innerHTML = `Humidity: ${response.data.main.humidity}%`;
-
   //changes description
-  let currentDescr = document.querySelector(".desc-of-weather");
   currentDescr.innerHTML = response.data.weather[0].description;
 
   //changes icon and alt
-  let currentIcon = document.querySelector("#icon");
   currentIcon.setAttribute(
     "src",
     `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
@@ -138,5 +136,18 @@ let apiAirQualUrl = "http://api.openweathermap.org/data/2.5/air_pollution";
 let apiKey = "8f909eb8beff1d1a0ae8b2df17dab17d";
 let units = "metric";
 
+let currentTempMain = document.querySelector("#current-temp-main");
+let currentTempHeader = document.querySelector("#current-temp-header");
+let realFeelHeader = document.querySelector("#rFtemperature");
+let newAirQuality = document.querySelector("#air-quality");
+let currentUnits = document.querySelector("#current-units");
+let windSpeed = document.querySelector("#wind-speed");
+let humidity = document.querySelector("#humidity");
+let currentIcon = document.querySelector("#icon");
+let currentDescr = document.querySelector(".desc-of-weather");
+
 let chosenCity = document.querySelector("#change-city");
 chosenCity.addEventListener("submit", changeCityAndTemp);
+
+let fahrenheitTemp = document.querySelector("#fahrenheit-link");
+fahrenheitTemp.addEventListener("click", convToF);
