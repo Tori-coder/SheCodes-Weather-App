@@ -39,6 +39,27 @@ function displayTimeAndDate() {
   displayCurrentTime();
 }
 
+function convToF(event) {
+  event.preventDefault;
+  if (responseTemp !== null) {
+    responseTempF = Math.round(((responseTemp + 40) * 9) / 5 - 40);
+    currentTempMain.innerHTML = responseTempF;
+  } else {
+    currentTempMain.innerHTML = Math.round(
+      ((currentTempMain + 40) * 9) / 5 - 40
+    );
+  }
+}
+
+function convToC(event) {
+  event.preventDefault;
+  if (responseTemp !== null) {
+    currentTempMain.innerHTML = Math.round(responseTemp);
+  } else {
+    currentTempMain.innerHTML = currentTempMain;
+  }
+}
+
 function airQual(val) {
   if (val === 1) {
     return "Good";
@@ -62,15 +83,28 @@ function changeAirQualDesc(response) {
   let airQualityIndex2 = airQual(airQualityIndex);
   newAirQuality.innerHTML = `Air Quality: ${airQualityIndex2}`;
 }
+function changeAirQual() {
+  axios
+    .get(`${apiAirQualUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`)
+    .then(changeAirQualDesc);
+}
 
-function changeTempEtc(response) {
-  console.log(response.data.current.temp);
-  responseTemp = response.data.current.temp;
+function changeCity() {
+  currentCity = document.querySelector("#current-city");
+  let cityInput = document.querySelector("#city-input");
+  currentCity.innerHTML = `${cityInput.value}`;
+  return cityInput.value;
+}
+
+function changeTemp(response) {
+  //changes temp fig
+  responseTemp = response.data.main.temp;
   currentTempMain.innerHTML = Math.round(responseTemp);
   currentTempHeader.innerHTML = ` ${Math.round(responseTemp)}`;
-  realFeelHeader.innerHTML = Math.round(response.data.current.feels_like);
+  realFeelHeader.innerHTML = Math.round(response.data.main.feels_like);
 
   //changes temp units
+
   if (units === "metric") {
     currentUnits.innerHTML = "ºC";
   } else currentUnits.innerHTML = "ºF";
@@ -78,61 +112,44 @@ function changeTempEtc(response) {
   //changes wind speed
   if (units === "metric") {
     windSpeed.innerHTML = `Wind Speed: ${Math.round(
-      response.data.current.wind_speed
+      response.data.wind.speed
     )}m/s`;
   } else
     windSpeed.innerHTML = `Wind Speed: ${Math.round(
-      response.data.current.wind_speed
+      response.data.wind.speed
     )}mph`;
 
   //changes humidity
-  humidity.innerHTML = `Humidity: ${response.data.current.humidity}%`;
+  humidity.innerHTML = `Humidity: ${response.data.main.humidity}%`;
   //changes description
-  currentDescr.innerHTML = response.data.current.weather[0].description;
+  currentDescr.innerHTML = response.data.weather[0].description;
 
   //changes icon and alt
   currentIcon.setAttribute(
     "src",
-    `https://openweathermap.org/img/wn/${response.data.current.weather[0].icon}@2x.png`
+    `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
   );
-  currentIcon.setAttribute(
-    "alt",
-    `${response.data.current.weather[0].description}`
-  );
+  currentIcon.setAttribute("alt", `${response.data.weather[0].description}`);
 
-  //gets air qual data and runs changeAirQualDesc
-  axios
-    .get(`${apiAirQualUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`)
-    .then(changeAirQualDesc);
-}
-function getTempData() {
-  axios
-    .get(`${oneCallUrl}?lat=48.8&lon=2.32&appid=${apiKey}&units=${units}`)
-    .then(changeTempEtc);
+  //finds lat and lon and runs changeAirQual
+  lat = response.data.coord.lat;
+  lon = response.data.coord.lon;
+  changeAirQual();
 }
 
-function defineLatLon(response) {
-  lat = response.data[0].lat;
-  lon = response.data[0].lon;
-  console.log(lat);
-  console.log(lon);
-  //run api to get tempdata etc
-  getTempData();
-}
-
-//changes city name in header and runs defineLatLon
-function changeCity(event) {
+function changeCityAndTemp(event) {
   event.preventDefault();
-  currentCity = document.querySelector("#current-city");
-  let cityInput = document.querySelector("#city-input");
-  currentCity.innerHTML = `${cityInput.value}`;
-  chosenCity = cityInput.value;
-  axios.get(`${geoUrl}?q=${chosenCity}&appid=${apiKey}`).then(defineLatLon);
-}
+  // runs fn changeCity
+  changeCity();
+  let chosenCity = changeCity();
 
+  //runs fn changeTemp (changes temp, wind speed, humidity, description, icon)
+  axios
+    .get(`${apiUrl}?q=${chosenCity}&appid=${apiKey}&units=${units}`)
+    .then(changeTemp);
+}
 //getting weather data from API
-let geoUrl = "http://api.openweathermap.org/geo/1.0/direct";
-let oneCallUrl = "https://api.openweathermap.org/data/3.0/onecall";
+let apiUrl = "https://api.openweathermap.org/data/2.5/weather";
 let apiAirQualUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
 let apiKey = "8f909eb8beff1d1a0ae8b2df17dab17d";
 let units = "metric";
@@ -147,6 +164,11 @@ let humidity = document.querySelector("#humidity");
 let currentIcon = document.querySelector("#icon");
 let currentDescr = document.querySelector(".desc-of-weather");
 
-// runs changeCity when the button is clicked
 let chosenCity = document.querySelector("#change-city");
-chosenCity.addEventListener("submit", changeCity);
+chosenCity.addEventListener("submit", changeCityAndTemp);
+
+let fahrenheitTemp = document.querySelector("#fahrenheit-link");
+fahrenheitTemp.addEventListener("click", convToF);
+
+let celsiusTemp = document.querySelector("#celsius-link");
+celsiusTemp.addEventListener("click", convToC);
