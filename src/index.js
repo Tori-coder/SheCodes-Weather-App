@@ -39,6 +39,17 @@ function displayTimeAndDate() {
   displayCurrentTime();
 }
 
+function findCurrentLatLon(position) {
+  lat1 = position.coords.latitude;
+  lon1 = position.coords.longitude;
+  console.log(lat1);
+  console.log(lon1);
+}
+function getCurrentPosition(event) {
+  event.preventDefault;
+  navigator.geolocation.getCurrentPosition(findCurrentLatLon);
+}
+
 function convToF(event) {
   event.preventDefault;
   if (responseTemp !== null) {
@@ -172,3 +183,6 @@ fahrenheitTemp.addEventListener("click", convToF);
 
 let celsiusTemp = document.querySelector("#celsius-link");
 celsiusTemp.addEventListener("click", convToC);
+
+let geoButton = document.querySelector("#geo-button");
+geoButton.addEventListener("click", getCurrentPosition);
