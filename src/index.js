@@ -78,7 +78,7 @@ function airQual(val) {
   }
 }
 
-function changeAirQualDesc(response) {
+ffunction changeAirQualDesc(response) {
   let airQualityIndex = response.data.list[0].main.aqi;
   let airQualityIndex2 = airQual(airQualityIndex);
   newAirQuality.innerHTML = `Air Quality: ${airQualityIndex2}`;
@@ -139,6 +139,7 @@ function changeTemp(response) {
 
 function changeCityAndTemp(event) {
   event.preventDefault();
+  
   // runs fn changeCity
   changeCity();
   let chosenCity = changeCity();
@@ -149,7 +150,7 @@ function changeCityAndTemp(event) {
     .then(changeTemp);
 }
 //getting weather data from API
-let apiUrl = "https://api.openweathermap.org/data/2.5/weather";
+let apiUrl = "https://api.openweathermap.org/data/3.0/onecall";
 let apiAirQualUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
 let apiKey = "8f909eb8beff1d1a0ae8b2df17dab17d";
 let units = "metric";
@@ -172,3 +173,17 @@ fahrenheitTemp.addEventListener("click", convToF);
 
 let celsiusTemp = document.querySelector("#celsius-link");
 celsiusTemp.addEventListener("click", convToC);
+
+/*function handlePosition(position) {
+  geoLat=position.coords.latitude;
+  geoLon=position.coords.longitude;
+}
+
+function changeeverything(){
+  
+}
+
+let useCurrentLocation = docuent.querySelector("#use-current-location");
+useCurrentLocation.addEventListener("click", fn to change everything using current location);
+
+navigator.geolocation.getCurrentPosition(handlePosition);*/
