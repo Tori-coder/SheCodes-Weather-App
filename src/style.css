@@ -161,8 +161,6 @@ p {
   left: 12px;
 }
 ul {
-   {
-  }
   list-style: none;
   padding: 0;
 }
@@ -175,31 +173,31 @@ ul {
   font-family: Arial, Helvetica, sans-serif;
   grid-template-columns: 7;
 }
-.day-one {
+.day1 {
   grid-column: 1;
   grid-row: 1;
 }
-.day-two {
+.day2 {
   grid-column: 2;
   grid-row: 1;
 }
-.day-three {
+.day3 {
   grid-column: 3;
   grid-row: 1;
 }
-.day-four {
+.day4 {
   grid-column: 4;
   grid-row: 1;
 }
-.day-five {
+.day5 {
   grid-column: 5;
   grid-row: 1;
 }
-.day-six {
+.day6 {
   grid-column: 6;
   grid-row: 1;
 }
-.day-seven {
+.day7 {
   grid-column: 7;
   grid-row: 1;
 }
