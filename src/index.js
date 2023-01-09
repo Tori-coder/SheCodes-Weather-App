@@ -186,3 +186,17 @@ celsiusTemp.addEventListener("click", convToC);
 
 let geoButton = document.querySelector("#geo-button");
 geoButton.addEventListener("click", getCurrentPosition);
+
+let dt = Date.now();
+console.log(dt);
+
+// 5 day forecast
+function forecastTemp(response) {
+  let todayTemp = response.data.list[0].main.humidity; //today's forecast data
+  console.log(todayTemp);
+}
+axios
+  .get(
+    `https://api.openweathermap.org/data/2.5/forecast?lat=51.5&lon=0.127&cnt=7&appid=${apiKey}`
+  )
+  .then(forecastTemp);
