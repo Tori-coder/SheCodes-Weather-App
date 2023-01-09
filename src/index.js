@@ -56,8 +56,6 @@ function changeCityAndTempCurrent() {
 function findCurrentLatLon(position) {
   lat = position.coords.latitude;
   lon = position.coords.longitude;
-  console.log(lat);
-  console.log(lon);
   changeCityAndTempCurrent();
 }
 function getCurrentPosition(event) {
@@ -123,7 +121,6 @@ function changeCity() {
 }
 
 function changeTempEtc(response) {
-  console.log(response.data.current.temp);
   responseTemp = response.data.current.temp;
   currentTempMain.innerHTML = Math.round(responseTemp);
   currentTempHeader.innerHTML = ` ${Math.round(responseTemp)}`;
@@ -163,20 +160,27 @@ function changeTempEtc(response) {
   axios
     .get(`${apiAirQualUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`)
     .then(changeAirQualDesc);
+
+  // 7 day forecast - just want it to show today's temp for now
+  let todayTemp = response.data.daily[0].temp.day; //today's forecast data
+  console.log(todayTemp);
 }
+
 function getTempData() {
   axios
-    .get(`${oneCallUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
+    .get(
+      `${oneCallUrl}?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`
+    )
     .then(changeTempEtc);
 }
 function defineLatLon(response) {
   lat = response.data[0].lat;
   lon = response.data[0].lon;
-  console.log(lat);
-  console.log(lon);
+
   //run api to get tempdata etc
   getTempData();
 }
+
 function changeCityAndTemp(event) {
   event.preventDefault();
   // runs fn changeCity
@@ -215,17 +219,6 @@ geoButton.addEventListener("click", getCurrentPosition);
 
 let dt = Date.now();
 console.log(dt);
-
-// 5 day forecast
-function forecastTemp(response) {
-  let todayTemp = response.data.list[0].main.humidity; //today's forecast data
-  console.log(todayTemp);
-}
-axios
-  .get(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=7&appid=${apiKey}`
-  )
-  .then(forecastTemp);
 
 /*let days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
 
