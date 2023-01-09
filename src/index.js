@@ -107,15 +107,14 @@ function changeCity() {
   return cityInput.value;
 }
 
-function changeTemp(response) {
-  //changes temp fig
-  responseTemp = response.data.main.temp;
+function changeTempEtc(response) {
+  console.log(response.data.current.temp);
+  responseTemp = response.data.current.temp;
   currentTempMain.innerHTML = Math.round(responseTemp);
   currentTempHeader.innerHTML = ` ${Math.round(responseTemp)}`;
-  realFeelHeader.innerHTML = Math.round(response.data.main.feels_like);
+  realFeelHeader.innerHTML = Math.round(response.data.current.feels_like);
 
   //changes temp units
-
   if (units === "metric") {
     currentUnits.innerHTML = "ºC";
   } else currentUnits.innerHTML = "ºF";
@@ -123,44 +122,56 @@ function changeTemp(response) {
   //changes wind speed
   if (units === "metric") {
     windSpeed.innerHTML = `Wind Speed: ${Math.round(
-      response.data.wind.speed
+      response.data.current.wind_speed
     )}m/s`;
   } else
     windSpeed.innerHTML = `Wind Speed: ${Math.round(
-      response.data.wind.speed
+      response.data.current.wind_speed
     )}mph`;
 
   //changes humidity
-  humidity.innerHTML = `Humidity: ${response.data.main.humidity}%`;
+  humidity.innerHTML = `Humidity: ${response.data.current.humidity}%`;
   //changes description
-  currentDescr.innerHTML = response.data.weather[0].description;
+  currentDescr.innerHTML = response.data.current.weather[0].description;
 
   //changes icon and alt
   currentIcon.setAttribute(
     "src",
-    `https://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`
+    `https://openweathermap.org/img/wn/${response.data.current.weather[0].icon}@2x.png`
   );
-  currentIcon.setAttribute("alt", `${response.data.weather[0].description}`);
+  currentIcon.setAttribute(
+    "alt",
+    `${response.data.current.weather[0].description}`
+  );
 
-  //finds lat and lon and runs changeAirQual
-  lat = response.data.coord.lat;
-  lon = response.data.coord.lon;
-  changeAirQual();
+  //gets air qual data and runs changeAirQualDesc
+  axios
+    .get(`${apiAirQualUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`)
+    .then(changeAirQualDesc);
 }
-
+function getTempData() {
+  axios
+    .get(`${oneCallUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
+    .then(changeTempEtc);
+}
+function defineLatLon(response) {
+  lat = response.data[0].lat;
+  lon = response.data[0].lon;
+  console.log(lat);
+  console.log(lon);
+  //run api to get tempdata etc
+  getTempData();
+}
 function changeCityAndTemp(event) {
   event.preventDefault();
   // runs fn changeCity
   changeCity();
   let chosenCity = changeCity();
-
-  //runs fn changeTemp (changes temp, wind speed, humidity, description, icon)
-  axios
-    .get(`${apiUrl}?q=${chosenCity}&appid=${apiKey}&units=${units}`)
-    .then(changeTemp);
+  axios.get(`${geoUrl}?q=${chosenCity}&appid=${apiKey}`).then(defineLatLon);
 }
 //getting weather data from API
-let apiUrl = "https://api.openweathermap.org/data/2.5/weather";
+let geoUrl = "http://api.openweathermap.org/geo/1.0/direct";
+let oneCallUrl = "https://api.openweathermap.org/data/3.0/onecall";
 let apiAirQualUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
 let apiKey = "8f909eb8beff1d1a0ae8b2df17dab17d";
 let units = "metric";
