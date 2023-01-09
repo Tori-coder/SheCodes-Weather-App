@@ -38,12 +38,27 @@ function displayTimeAndDate() {
   }
   displayCurrentTime();
 }
+function changeCityCurrent(response) {
+  currentCity = document.querySelector("#current-city");
+  let cityInputCurrent = response.data[0].name;
+  currentCity.innerHTML = cityInputCurrent;
+  changeTempEtc();
+}
 
+function changeCityAndTempCurrent() {
+  // gets city name from lat lon and runs fn changeCityCurrent
+  axios
+    .get(`${geoUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
+    .then(changeCityCurrent);
+  //runs fn getTempData
+  getTempData();
+}
 function findCurrentLatLon(position) {
-  lat1 = position.coords.latitude;
-  lon1 = position.coords.longitude;
-  console.log(lat1);
-  console.log(lon1);
+  lat = position.coords.latitude;
+  lon = position.coords.longitude;
+  console.log(lat);
+  console.log(lon);
+  changeCityAndTempCurrent();
 }
 function getCurrentPosition(event) {
   event.preventDefault;
@@ -208,6 +223,19 @@ function forecastTemp(response) {
 }
 axios
   .get(
-    `https://api.openweathermap.org/data/2.5/forecast?lat=51.5&lon=0.127&cnt=7&appid=${apiKey}`
+    `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&cnt=7&appid=${apiKey}`
   )
   .then(forecastTemp);
+
+/*let days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+
+days.forEach((element, index) => {
+  console.log(day + " " + (index + 1));
+});
+
+function displayWeeklyForecast() {
+  let forecastGrid = document.querySelector(".weekly-forecast-grid");
+  forecastHTML = forecastHTML + forecastHTML;
+  forecastHTML = forecastHTML + `</div>`;
+  forecastGrid.innerHTML = forecastHTML;
+}*/
