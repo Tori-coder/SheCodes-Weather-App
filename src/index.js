@@ -107,11 +107,12 @@ function changeAirQualDesc(response) {
   let airQualityIndex2 = airQual(airQualityIndex);
   newAirQuality.innerHTML = `Air Quality: ${airQualityIndex2}`;
 }
+/* I don`t think I need this function any more
 function changeAirQual() {
   axios
     .get(`${apiAirQualUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`)
     .then(changeAirQualDesc);
-}
+}*/
 
 function changeCity() {
   currentCity = document.querySelector("#current-city");
@@ -189,7 +190,7 @@ function changeCityAndTemp(event) {
   axios.get(`${geoUrl}?q=${chosenCity}&appid=${apiKey}`).then(defineLatLon);
 }
 //getting weather data from API
-let geoUrl = "http://api.openweathermap.org/geo/1.0/direct";
+let geoUrl = "https://api.openweathermap.org/geo/1.0/direct";
 let oneCallUrl = "https://api.openweathermap.org/data/3.0/onecall";
 let apiAirQualUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
 let apiKey = "8f909eb8beff1d1a0ae8b2df17dab17d";
