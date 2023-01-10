@@ -48,7 +48,9 @@ function changeCityCurrent(response) {
 function changeCityAndTempCurrent() {
   // gets city name from lat lon and runs fn changeCityCurrent
   axios
-    .get(`${geoUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`)
+    .get(
+      `${reverseGeoUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=${units}`
+    )
     .then(changeCityCurrent);
   //runs fn getTempData
   getTempData();
@@ -191,6 +193,7 @@ function changeCityAndTemp(event) {
 }
 //getting weather data from API
 let geoUrl = "https://api.openweathermap.org/geo/1.0/direct";
+let reverseGeoUrl = "http://api.openweathermap.org/geo/1.0/reverse";
 let oneCallUrl = "https://api.openweathermap.org/data/3.0/onecall";
 let apiAirQualUrl = "https://api.openweathermap.org/data/2.5/air_pollution";
 let apiKey = "8f909eb8beff1d1a0ae8b2df17dab17d";
