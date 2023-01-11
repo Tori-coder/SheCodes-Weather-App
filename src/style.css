@@ -171,33 +171,46 @@ ul {
   padding: 10px;
   margin: 20px 15% 20px 100px;
   font-family: Arial, Helvetica, sans-serif;
-  grid-template-columns: 7;
+  grid-template-columns: 6;
+  text-align: center;
 }
-.day1 {
+
+.grid0 {
   grid-column: 1;
   grid-row: 1;
 }
-.day2 {
+.grid1 {
   grid-column: 2;
   grid-row: 1;
 }
-.day3 {
+.grid2 {
   grid-column: 3;
   grid-row: 1;
 }
-.day4 {
+.grid3 {
   grid-column: 4;
   grid-row: 1;
 }
-.day5 {
+.grid4 {
   grid-column: 5;
   grid-row: 1;
 }
-.day6 {
+.grid5 {
   grid-column: 6;
   grid-row: 1;
 }
-.day7 {
+.grid6 {
   grid-column: 7;
   grid-row: 1;
+}
+.gridResponse {
+  grid-row: 2;
+}
+.forecast-icon {
+  width: 30px;
+  grid-row: 3;
+  margin: 0 auto;
+}
+.forecast-description {
+  grid-row: 4;
 }

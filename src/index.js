@@ -38,6 +38,23 @@ function displayTimeAndDate() {
   }
   displayCurrentTime();
 }
+
+function createForecastGrid(response) {
+  let dailyData = response.data.daily;
+  console.log(dailyData[0].temp.day);
+  let forecastHTML = ``;
+  let forecastGrid = document.querySelector(".weekly-forecast-grid");
+  for (let i = 0; i < 7; i++) {
+    let forecastIcon = dailyData[i].weather[0].icon;
+    let forecastDesc = dailyData[i].weather[0].description;
+    let forecastTemp = dailyData[i].temp.day;
+    forecastHTML += `<div class="grid${i}">${eval(
+      "day" + i
+    )}</div></br><div class="gridResponse">${forecastTemp}</div></br><img class="forecast-icon" src="https://openweathermap.org/img/wn/${forecastIcon}@2x.png" alt="forecast icon"/><div class="forecast-description">${forecastDesc}</div>`;
+  }
+  forecastGrid.innerHTML = forecastHTML;
+}
+
 function changeCityCurrent(response) {
   currentCity = document.querySelector("#current-city");
   let cityInputCurrent = response.data[0].name;
@@ -164,9 +181,7 @@ function changeTempEtc(response) {
     .get(`${apiAirQualUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}`)
     .then(changeAirQualDesc);
 
-  // 7 day forecast - just want it to show today's temp for now
-  let todayTemp = response.data.daily[0].temp.day; //today's forecast data
-  console.log(todayTemp);
+  // loads 7 day forecast
 }
 
 function getTempData() {
@@ -174,7 +189,8 @@ function getTempData() {
     .get(
       `${oneCallUrl}?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`
     )
-    .then(changeTempEtc);
+    .then(changeTempEtc)
+    .then(createForecastGrid);
 }
 function defineLatLon(response) {
   lat = response.data[0].lat;
@@ -191,6 +207,18 @@ function changeCityAndTemp(event) {
   let chosenCity = changeCity();
   axios.get(`${geoUrl}?q=${chosenCity}&appid=${apiKey}`).then(defineLatLon);
 }
+//defining forecast days
+let now = new Date();
+let days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+
+let day0 = days[now.getDay()];
+let day1 = days[(now.getDay() + 1) % 7];
+let day2 = days[(now.getDay() + 2) % 7];
+let day3 = days[(now.getDay() + 3) % 7];
+let day4 = days[(now.getDay() + 4) % 7];
+let day5 = days[(now.getDay() + 5) % 7];
+let day6 = days[(now.getDay() + 6) % 7];
+
 //getting weather data from API
 let geoUrl = "https://api.openweathermap.org/geo/1.0/direct";
 let reverseGeoUrl = "http://api.openweathermap.org/geo/1.0/reverse";
@@ -212,27 +240,11 @@ let currentDescr = document.querySelector(".desc-of-weather");
 let chosenCity = document.querySelector("#change-city");
 chosenCity.addEventListener("submit", changeCityAndTemp);
 
+let geoButton = document.querySelector("#geo-button");
+geoButton.addEventListener("click", getCurrentPosition);
+
 let fahrenheitTemp = document.querySelector("#fahrenheit-link");
 fahrenheitTemp.addEventListener("click", convToF);
 
 let celsiusTemp = document.querySelector("#celsius-link");
 celsiusTemp.addEventListener("click", convToC);
-
-let geoButton = document.querySelector("#geo-button");
-geoButton.addEventListener("click", getCurrentPosition);
-
-let dt = Date.now();
-console.log(dt);
-
-/*let days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
-
-days.forEach((element, index) => {
-  console.log(day + " " + (index + 1));
-});
-
-function displayWeeklyForecast() {
-  let forecastGrid = document.querySelector(".weekly-forecast-grid");
-  forecastHTML = forecastHTML + forecastHTML;
-  forecastHTML = forecastHTML + `</div>`;
-  forecastGrid.innerHTML = forecastHTML;
-}*/
