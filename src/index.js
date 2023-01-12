@@ -94,6 +94,11 @@ function convToF(event) {
   }
 }
 
+function convForecastToF(event) {
+  event: preventDefault;
+  forecastTempF = Math.round(((forecastTemp + 40) * 9) / 5 - 40);
+  document.querySelector(".gridResponse").innerHTML = `${forecastTempF}ºF`;
+}
 function convToC(event) {
   event.preventDefault;
   if (responseTemp !== null) {
@@ -101,6 +106,11 @@ function convToC(event) {
   } else {
     currentTempMain.innerHTML = currentTempMain;
   }
+}
+
+function convForecastToC(event) {
+  event.preventDefault;
+  document.querySelector(".gridResponse").innerHTML = `${forecastTempC}ºC`;
 }
 
 function airQual(val) {
