@@ -182,6 +182,7 @@ function changeTempEtc(response) {
     .then(changeAirQualDesc);
 
   // loads 7 day forecast
+  createForecastGrid(response);
 }
 
 function getTempData() {
@@ -189,8 +190,7 @@ function getTempData() {
     .get(
       `${oneCallUrl}?lat=${lat}&lon=${lon}&exclude=minutely,hourly,alerts&appid=${apiKey}&units=${units}`
     )
-    .then(changeTempEtc)
-    .then(createForecastGrid);
+    .then(changeTempEtc);
 }
 function defineLatLon(response) {
   lat = response.data[0].lat;
@@ -236,6 +236,8 @@ let windSpeed = document.querySelector("#wind-speed");
 let humidity = document.querySelector("#humidity");
 let currentIcon = document.querySelector("#icon");
 let currentDescr = document.querySelector(".desc-of-weather");
+let lat = -12.11788;
+let lon = -77.033043;
 
 let chosenCity = document.querySelector("#change-city");
 chosenCity.addEventListener("submit", changeCityAndTemp);
