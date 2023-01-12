@@ -50,7 +50,7 @@ function createForecastGrid(response) {
     let forecastTemp = dailyData[i].temp.day;
     forecastHTML += `<div class="grid${i}">${eval(
       "day" + i
-    )}</div></br><div class="gridResponse">${forecastTemp}</div></br><img class="forecast-icon" src="https://openweathermap.org/img/wn/${forecastIcon}@2x.png" alt="forecast icon"/><div class="forecast-description">${forecastDesc}</div>`;
+    )}</div></br><div class="gridResponse">${forecastTemp}ºC</div></br><img class="forecast-icon" src="https://openweathermap.org/img/wn/${forecastIcon}@2x.png" alt="forecast icon"/><div class="forecast-description">${forecastDesc}</div>`;
   }
   forecastGrid.innerHTML = forecastHTML;
 }
@@ -207,6 +207,13 @@ function changeCityAndTemp(event) {
   let chosenCity = changeCity();
   axios.get(`${geoUrl}?q=${chosenCity}&appid=${apiKey}`).then(defineLatLon);
 }
+
+function loadMirafloresData() {
+  lat = -12.11788;
+  lon = -77.033043;
+  getTempData();
+}
+
 //defining forecast days
 let now = new Date();
 let days = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
@@ -236,8 +243,8 @@ let windSpeed = document.querySelector("#wind-speed");
 let humidity = document.querySelector("#humidity");
 let currentIcon = document.querySelector("#icon");
 let currentDescr = document.querySelector(".desc-of-weather");
-let lat = -12.11788;
-let lon = -77.033043;
+
+window.addEventListener("load", displayTimeAndDate(), loadMirafloresData());
 
 let chosenCity = document.querySelector("#change-city");
 chosenCity.addEventListener("submit", changeCityAndTemp);

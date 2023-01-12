@@ -23,7 +23,7 @@ p {
   margin-left: 20px;
 }
 
-.git {
+footer {
   margin: 20px 15% 20px 100px;
   color: aliceblue;
   font-family: Arial, Helvetica, sans-serif;
@@ -179,40 +179,56 @@ ul {
 .grid0 {
   grid-column: 1;
   grid-row: 1;
+  line-height: 40px;
 }
 .grid1 {
   grid-column: 2;
   grid-row: 1;
+  line-height: 40px;
 }
 .grid2 {
   grid-column: 3;
   grid-row: 1;
+  line-height: 40px;
 }
 .grid3 {
   grid-column: 4;
   grid-row: 1;
+  line-height: 40px;
 }
 .grid4 {
   grid-column: 5;
   grid-row: 1;
+  line-height: 40px;
 }
 .grid5 {
   grid-column: 6;
   grid-row: 1;
+  line-height: 40px;
 }
 .grid6 {
   grid-column: 7;
   grid-row: 1;
+  line-height: 40px;
 }
 .gridResponse {
   grid-row: 2;
-  font: small;
+  line-height: 65px;
+  font-size: small;
 }
 .forecast-icon {
+  background-color: #ca7f76;
+  padding: 2px;
+  border-radius: 4px;
   width: 30px;
   grid-row: 3;
   margin: 0 auto;
 }
 .forecast-description {
+  line-height: 30px;
+  position: relative;
+  top: 10px;
+  font-size: small;
+  text-transform: capitalize;
   grid-row: 4;
 }
